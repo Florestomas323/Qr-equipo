@@ -321,7 +321,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-  let renderId = 0, lastBlob = null, lastUrl = null;
+  let renderId = 0, lastBlob = null, lastUrl = null, lastQrBlob = null;
 
   async function render() {
     const id = ++renderId;
@@ -343,6 +343,8 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
       return;
     }
     drawQR(ctx, qr, cx, cy, Math.min(boxW, boxH) * 0.8, state.url ? 1 : 0.28);
+    lastQrBlob = null;
+    if (state.url) qrCanvas(state.url).toBlob((b) => { if (id === renderId) lastQrBlob = b; }, "image/png");
     canvas.toBlob((blob) => {
       if (id !== renderId || !blob) return;
       lastBlob = blob;
@@ -401,8 +403,26 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   const inViewer = !!(window.claude && typeof window.claude.use === "function");
   const dlPromise = inViewer ? window.claude.use("downloads").catch(() => null) : Promise.resolve(null);
 
+  const touch = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+  const shareFiles = !inViewer && touch && !!navigator.canShare;
+  function canShareFile(file) {
+    try { return shareFiles && navigator.canShare({ files: [file] }); } catch (e) { return false; }
+  }
+  if (shareFiles) {
+    dlImage.textContent = "Guardar en fotos";
+    dlQr.textContent = "Guardar solo el QR";
+    $("save-hint").textContent = "Se abre el menú de compartir: toca “Guardar imagen” y queda en tus fotos. Desde ahí también la puedes mandar directo por WhatsApp.";
+  } else if (inViewer && touch) {
+    $("save-hint").textContent = "Para que quede en tus fotos, mantén presionada la imagen de arriba y toca “Guardar en Fotos”.";
+  }
+
   async function saveFile(blob, filename) {
     if (!inViewer) {
+      const file = new File([blob], filename, { type: filename.endsWith(".png") ? "image/png" : "image/jpeg" });
+      if (canShareFile(file)) {
+        try { await navigator.share({ files: [file] }); return; }
+        catch (e) { if (e && e.name === "AbortError") return; }
+      }
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob); a.download = filename;
       document.body.appendChild(a); a.click(); a.remove();
@@ -428,17 +448,20 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     saveFile(lastBlob, NAMES[state.tpl] + "-" + FMT_NAMES[state.fmt] + ".jpg");
   });
 
-  dlQr.addEventListener("click", () => {
-    if (!state.url) return;
-    const qr = makeQR(state.url);
+  function qrCanvas(url) {
+    const qr = makeQR(url);
     const c = document.createElement("canvas");
     const n = qr.getModuleCount(), cell = Math.floor(1000 / (n + 8));
     c.width = c.height = cell * (n + 8);
     const g = c.getContext("2d");
-    drawQR(g, qr, c.width / 2, c.height / 2, c.width, 1);
-    g.globalCompositeOperation = "destination-over";
     g.fillStyle = "#FFFFFF"; g.fillRect(0, 0, c.width, c.height);
-    c.toBlob((b) => b && saveFile(b, "mi-qr.png"), "image/png");
+    drawQR(g, qr, c.width / 2, c.height / 2, c.width, 1);
+    return c;
+  }
+
+  dlQr.addEventListener("click", () => {
+    if (!state.url || !lastQrBlob) return;
+    saveFile(lastQrBlob, "mi-qr.png");
   });
 
   $("copy").addEventListener("click", () => {
