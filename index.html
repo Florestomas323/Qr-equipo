@@ -174,24 +174,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
       <section class="step">
         <span class="step-label" id="tpl-label"><span class="n">3</span> Plantilla</span>
-        <div class="choices" role="radiogroup" aria-labelledby="tpl-label">
-          <label class="choice">
-            <input type="radio" name="tpl" id="tpl-mystery" value="mystery" checked>
-            <span class="card">
-              <img class="thumb" id="thumb-mystery" alt="Plantilla Mystery Box" width="320" height="320" decoding="async">
-              <span class="card-title">Mystery Box</span>
-              <span class="card-sub">Tu sorpresa comienza aquí</span>
-            </span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="tpl" id="tpl-ruleta" value="ruleta">
-            <span class="card">
-              <img class="thumb" id="thumb-ruleta" alt="Plantilla Gira y Gana" width="320" height="320" decoding="async">
-              <span class="card-title">Gira y Gana</span>
-              <span class="card-sub">Escanea y participa</span>
-            </span>
-          </label>
-        </div>
+        <div class="choices" role="radiogroup" aria-labelledby="tpl-label" id="tpls"></div>
       </section>
 
       <section class="step">
@@ -252,7 +235,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 <script>
 (function () {
   "use strict";
-  const T = {"regular-mystery-1x1":{"src":"img/regular-mystery-1x1-2727127b.webp","w":1080,"h":1080,"box":[0.62695,0.58105,0.24902,0.24902],"thumb":"img/thumb-regular-mystery-1x1-678aef5a.webp"},"regular-mystery-4x5":{"src":"img/regular-mystery-4x5-3cf9a61d.webp","w":1080,"h":1350,"box":[0.64732,0.66518,0.25,0.19464]},"regular-mystery-9x16":{"src":"img/regular-mystery-9x16-dc94135c.webp","w":1080,"h":1920,"box":[0.65559,0.67485,0.27261,0.15476]},"navidad-mystery-1x1":{"src":"img/navidad-mystery-1x1-19cb704d.webp","w":1080,"h":1080,"box":[0.6748,0.58594,0.23047,0.22559],"thumb":"img/thumb-navidad-mystery-1x1-641b696e.webp"},"navidad-mystery-4x5":{"src":"img/navidad-mystery-4x5-27074efc.webp","w":1080,"h":1350,"box":[0.73214,0.73214,0.19308,0.15446]},"navidad-mystery-9x16":{"src":"img/navidad-mystery-9x16-6356d8ed.webp","w":1080,"h":1920,"box":[0.375,0.76042,0.24867,0.13988]},"navidad-ruleta-1x1":{"src":"img/navidad-ruleta-1x1-de047011.webp","w":1080,"h":1080,"box":[0.42969,0.7666,0.13867,0.1377],"thumb":"img/thumb-navidad-ruleta-1x1-0ddc1e55.webp"},"navidad-ruleta-4x5":{"src":"img/navidad-ruleta-4x5-3d097b51.webp","w":1080,"h":1350,"box":[0.40625,0.73929,0.18638,0.14821]},"navidad-ruleta-9x16":{"src":"img/navidad-ruleta-9x16-47483d4a.webp","w":1080,"h":1920,"box":[0.37633,0.72396,0.24468,0.13318]},"otono-mystery-1x1":{"src":"img/otono-mystery-1x1-5054f575.webp","w":1080,"h":1080,"box":[0.66992,0.61426,0.22168,0.21777],"thumb":"img/thumb-otono-mystery-1x1-1fba241d.webp"},"otono-mystery-4x5":{"src":"img/otono-mystery-4x5-a56ea6ed.webp","w":1080,"h":1350,"box":[0.70759,0.70893,0.22321,0.17679]},"otono-mystery-9x16":{"src":"img/otono-mystery-9x16-8f3b37ed.webp","w":1080,"h":1920,"box":[0.3617,0.73438,0.27527,0.14881]},"otono-ruleta-1x1":{"src":"img/otono-ruleta-1x1-80275514.webp","w":1080,"h":1080,"box":[0.42969,0.7666,0.13965,0.13867],"thumb":"img/thumb-otono-ruleta-1x1-d36d6848.webp"},"otono-ruleta-4x5":{"src":"img/otono-ruleta-4x5-8eb663fd.webp","w":1080,"h":1350,"box":[0.40625,0.76786,0.18638,0.14464]},"otono-ruleta-9x16":{"src":"img/otono-ruleta-9x16-64c3d29b.webp","w":1080,"h":1920,"box":[0.37633,0.73586,0.24601,0.1369]},"regular-ruleta-1x1":{"src":"img/regular-ruleta-1x1-c321e2d7.webp","w":1080,"h":1080,"box":[0.70898,0.64453,0.22949,0.21875],"thumb":"img/thumb-regular-ruleta-1x1-c9fd43c3.webp"},"regular-ruleta-4x5":{"src":"img/regular-ruleta-4x5-83c1561d.webp","w":1080,"h":1350,"box":[0.71987,0.73036,0.23326,0.18304]},"regular-ruleta-9x16":{"src":"img/regular-ruleta-9x16-2bbd0fa1.webp","w":1080,"h":1920,"box":[0.34441,0.7247,0.30984,0.17039]}};
+  const T = {"regular-mystery-1x1":{"src":"img/regular-mystery-1x1-2727127b.webp","w":1080,"h":1080,"box":[0.62695,0.58105,0.24902,0.24902],"thumb":"img/thumb-regular-mystery-1x1-678aef5a.webp"},"regular-mystery-4x5":{"src":"img/regular-mystery-4x5-3cf9a61d.webp","w":1080,"h":1350,"box":[0.64732,0.66518,0.25,0.19464]},"regular-mystery-9x16":{"src":"img/regular-mystery-9x16-dc94135c.webp","w":1080,"h":1920,"box":[0.65559,0.67485,0.27261,0.15476]},"navidad-mystery-1x1":{"src":"img/navidad-mystery-1x1-19cb704d.webp","w":1080,"h":1080,"box":[0.6748,0.58594,0.23047,0.22559],"thumb":"img/thumb-navidad-mystery-1x1-641b696e.webp"},"navidad-mystery-4x5":{"src":"img/navidad-mystery-4x5-27074efc.webp","w":1080,"h":1350,"box":[0.73214,0.73214,0.19308,0.15446]},"navidad-mystery-9x16":{"src":"img/navidad-mystery-9x16-6356d8ed.webp","w":1080,"h":1920,"box":[0.375,0.76042,0.24867,0.13988]},"navidad-ruleta-1x1":{"src":"img/navidad-ruleta-1x1-de047011.webp","w":1080,"h":1080,"box":[0.42969,0.7666,0.13867,0.1377],"thumb":"img/thumb-navidad-ruleta-1x1-0ddc1e55.webp"},"navidad-ruleta-4x5":{"src":"img/navidad-ruleta-4x5-3d097b51.webp","w":1080,"h":1350,"box":[0.40625,0.73929,0.18638,0.14821]},"navidad-ruleta-9x16":{"src":"img/navidad-ruleta-9x16-47483d4a.webp","w":1080,"h":1920,"box":[0.37633,0.72396,0.24468,0.13318]},"otono-mystery-1x1":{"src":"img/otono-mystery-1x1-5054f575.webp","w":1080,"h":1080,"box":[0.66992,0.61426,0.22168,0.21777],"thumb":"img/thumb-otono-mystery-1x1-1fba241d.webp"},"otono-mystery-4x5":{"src":"img/otono-mystery-4x5-a56ea6ed.webp","w":1080,"h":1350,"box":[0.70759,0.70893,0.22321,0.17679]},"otono-mystery-9x16":{"src":"img/otono-mystery-9x16-8f3b37ed.webp","w":1080,"h":1920,"box":[0.3617,0.73438,0.27527,0.14881]},"otono-ruleta-1x1":{"src":"img/otono-ruleta-1x1-80275514.webp","w":1080,"h":1080,"box":[0.42969,0.7666,0.13965,0.13867],"thumb":"img/thumb-otono-ruleta-1x1-d36d6848.webp"},"otono-ruleta-4x5":{"src":"img/otono-ruleta-4x5-8eb663fd.webp","w":1080,"h":1350,"box":[0.40625,0.76786,0.18638,0.14464]},"otono-ruleta-9x16":{"src":"img/otono-ruleta-9x16-64c3d29b.webp","w":1080,"h":1920,"box":[0.37633,0.73586,0.24601,0.1369]},"regular-ruleta-1x1":{"src":"img/regular-ruleta-1x1-c321e2d7.webp","w":1080,"h":1080,"box":[0.70898,0.64453,0.22949,0.21875],"thumb":"img/thumb-regular-ruleta-1x1-c9fd43c3.webp"},"regular-ruleta-4x5":{"src":"img/regular-ruleta-4x5-83c1561d.webp","w":1080,"h":1350,"box":[0.71987,0.73036,0.23326,0.18304]},"regular-ruleta-9x16":{"src":"img/regular-ruleta-9x16-2bbd0fa1.webp","w":1080,"h":1920,"box":[0.34441,0.7247,0.30984,0.17039]},"regular-ruleta2-1x1":{"src":"img/regular-ruleta2-1x1-51cc38be.webp","w":1080,"h":1080,"box":[0.42578,0.75684,0.14648,0.14453],"thumb":"img/thumb-regular-ruleta2-1x1-a4e06daa.webp"},"regular-ruleta2-4x5":{"src":"img/regular-ruleta2-4x5-45a89c3c.webp","w":1080,"h":1350,"box":[0.40737,0.73839,0.18415,0.14464]},"regular-ruleta2-9x16":{"src":"img/regular-ruleta2-9x16-ed1e164f.webp","w":1080,"h":1920,"box":[0.35904,0.73661,0.28059,0.15104]}};
   // Temporadas: para agregar una nueva, sube sus 6 imágenes y quita "soon".
   const SEASONS = [
     { id: "regular", name: "Regular", dot: "#14307E" },
@@ -267,7 +250,13 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     return "regular";
   }
   const DEFAULT_SEASON = seasonForDate(new Date());
-  const NAMES = { mystery: "mystery-box", ruleta: "gira-y-gana" };
+  // Plantillas: cada temporada muestra las que tienen imágenes cargadas.
+  const TEMPLATES = [
+    { id: "mystery", name: "Mystery Box", file: "mystery-box", caption: "mystery", sub: () => "Tu sorpresa comienza aquí" },
+    { id: "ruleta", name: "Gira y Gana", file: "gira-y-gana", caption: "ruleta", sub: (se) => se === "regular" ? "Con productos" : "Escanea y participa" },
+    { id: "ruleta2", name: "Gira y Gana", file: "gira-y-gana-sorpresa", caption: "ruleta", sub: () => "Premio sorpresa" }
+  ];
+  const NAMES = {}; TEMPLATES.forEach((t) => { NAMES[t.id] = t; });
   const FMT_NAMES = { "9x16": "historia-9x16", "4x5": "feed-4x5", "1x1": "cuadrada-1x1" };
   const CAPTIONS = {
     mystery: "🎁✨ Tengo una caja misteriosa para ti…\n\nEntrá, abre tu Mystery Box y descubre qué sorpresa te espera. 👀🍀\n\n🔗 {link}",
@@ -294,7 +283,6 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   function remember() {
     try { localStorage.setItem(STORE, JSON.stringify({ link: linkEl.value, season: state.season, auto: DEFAULT_SEASON, tpl: state.tpl, fmt: state.fmt })); } catch (e) {}
   }
-  $("tpl-" + state.tpl).checked = true;
   $("fmt-" + state.fmt).checked = true;
 
   // ---- thumbnails ----
@@ -316,9 +304,30 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     seasonsEl.append(lab);
     inp.addEventListener("change", () => { state.season = se.id; setThumbs(); remember(); render(); prefetchSeason(); });
   });
+  function availableTpls() { return TEMPLATES.filter((t) => T[state.season + "-" + t.id + "-1x1"]); }
   function setThumbs() {
-    $("thumb-mystery").src = T[state.season + "-mystery-1x1"].thumb;
-    $("thumb-ruleta").src = T[state.season + "-ruleta-1x1"].thumb;
+    const list = availableTpls();
+    if (!list.some((t) => t.id === state.tpl)) {
+      state.tpl = list.some((t) => t.id === "ruleta") && state.tpl.indexOf("ruleta") === 0 ? "ruleta" : list[0].id;
+      state.captionEdited = false;
+      if (typeof updateCaption === "function") updateCaption();
+    }
+    const box = $("tpls");
+    box.textContent = "";
+    box.style.gridTemplateColumns = "repeat(" + Math.min(list.length, 3) + ", minmax(0, 1fr))";
+    list.forEach((t) => {
+      const lab = document.createElement("label"); lab.className = "choice";
+      const inp = document.createElement("input");
+      inp.type = "radio"; inp.name = "tpl"; inp.id = "tpl-" + t.id; inp.value = t.id; inp.checked = t.id === state.tpl;
+      const card = document.createElement("span"); card.className = "card";
+      const img = document.createElement("img");
+      img.className = "thumb"; img.width = 320; img.height = 320; img.decoding = "async";
+      img.alt = "Plantilla " + t.name + " " + t.sub(state.season); img.src = T[state.season + "-" + t.id + "-1x1"].thumb;
+      const ti = document.createElement("span"); ti.className = "card-title"; ti.textContent = t.name;
+      const su = document.createElement("span"); su.className = "card-sub"; su.textContent = t.sub(state.season);
+      card.append(img, ti, su); lab.append(inp, card); box.append(lab);
+      inp.addEventListener("change", () => { state.tpl = t.id; state.captionEdited = false; updateCaption(); remember(); render(); });
+    });
   }
   setThumbs();
 
@@ -420,7 +429,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   function updateCaption() {
     if (state.captionEdited) return;
-    caption.value = CAPTIONS[state.tpl].replace("{link}", state.url || "(tu link)");
+    caption.value = CAPTIONS[NAMES[state.tpl].caption].replace("{link}", state.url || "(tu link)");
   }
 
   function onLink() {
@@ -439,9 +448,6 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   linkEl.addEventListener("input", () => { clearTimeout(t0); t0 = setTimeout(onLink, 180); });
   linkEl.addEventListener("paste", () => { clearTimeout(t0); t0 = setTimeout(onLink, 0); });
   $("clear").addEventListener("click", () => { linkEl.value = ""; onLink(); linkEl.focus(); });
-  document.querySelectorAll('input[name="tpl"]').forEach((el) => el.addEventListener("change", () => {
-    state.tpl = el.value; state.captionEdited = false; updateCaption(); remember(); render();
-  }));
   document.querySelectorAll('input[name="fmt"]').forEach((el) => el.addEventListener("change", () => {
     state.fmt = el.value; remember(); render();
   }));
@@ -500,7 +506,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   dlImage.addEventListener("click", () => {
     if (!state.url || !lastBlob) return;
-    saveFile(lastBlob, NAMES[state.tpl] + (state.season === "regular" ? "" : "-" + state.season) + "-" + FMT_NAMES[state.fmt] + ".jpg");
+    saveFile(lastBlob, NAMES[state.tpl].file + (state.season === "regular" ? "" : "-" + state.season) + "-" + FMT_NAMES[state.fmt] + ".jpg");
   });
 
   function qrCanvas(url) {
@@ -529,7 +535,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   // Después de mostrar la primera imagen, baja en segundo plano los otros formatos de la temporada.
   function prefetchSeason() {
-    const go = () => ["mystery", "ruleta"].forEach((tp) => ["9x16", "4x5", "1x1"].forEach((f) => getImg(state.season + "-" + tp + "-" + f).catch(() => {})));
+    const go = () => availableTpls().map((t) => t.id).forEach((tp) => ["9x16", "4x5", "1x1"].forEach((f) => getImg(state.season + "-" + tp + "-" + f).catch(() => {})));
     if ("requestIdleCallback" in window) requestIdleCallback(go, { timeout: 3000 }); else setTimeout(go, 1500);
   }
   setTimeout(prefetchSeason, 1200);
